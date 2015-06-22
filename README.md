@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/sbellem/pyspool.svg?branch=travis)](https://travis-ci.org/sbellem/pyspool)
+
+
 # pyspool
 pyspool is a reference implementation of the Secure Public Online Ownership Ledger 
 [SPOOL](https://github.com/ascribe/spool) and part of the development stack of [ascribe.io](https://www.ascribe.io/)
