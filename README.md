@@ -16,6 +16,7 @@ pyspool is a reference implementation of the Secure Public Online Ownership Ledg
     - [BlockchainSpider](#blockchainspider)
     - [Ownsership](#ownership)
 - [Testing](#testing)
+    - [Using Docker](#using-docker)
 - [Contributing](#contributing)
 
 ## Install
@@ -513,6 +514,29 @@ wallet passwords. Note that these tests may take some time since we need to wait
 bitcoin network to confirm each transaction
 ```bash
 TEST_SPOOL=1 TEST_REFILL_PASS=<refill_pass> TEST_FEDERATION_PASS=<federation_pass> python -m unittest discover -v tests/
+```
+
+### Using Docker
+You can use docker to run the tests for pyspool, or to work on pyspool.
+
+To build the docker image:
+
+```bash
+docker build -t pyspool-img .
+```
+
+Simply running:
+
+```bash
+docker run --rm pyspool-img
+```
+
+will run the tests, without bitcoin network transactions.
+
+You can also pass your own command, as in:
+
+```bash
+docker run --rm pyspool-img python -m unittest discover -v tests/
 ```
 
 ## Contributing
