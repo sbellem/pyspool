@@ -61,11 +61,13 @@ class BlockchainSpider(object):
 
         for tx in txs:
             _tx = self._t.get(tx['txid'])
-            txid = _tx['txid']
+            #txid = _tx['txid']
+            txid = _tx['tx']
             verb_str = BlockchainSpider.check_script(_tx['vouts'])
             verb = Spoolverb.from_verb(verb_str)
             from_address, to_address, piece_address = BlockchainSpider._get_addresses(_tx)
-            timestamp_utc = _tx['time']
+            #timestamp_utc = _tx['time']
+            timestamp_utc = _tx['time_utc']
             action = verb.action
 
             edition_number = 0
@@ -142,8 +144,8 @@ class BlockchainSpider(object):
         :return: string representation of the op_return
         """
 
-        for vout in [v for v in vouts[::-1] if v['hex'].startswith('6a')]:
-            verb = BlockchainSpider.decode_op_return(vout['hex'])
+        for vout in [v for v in vouts[::-1] if v['extras']['script'].startswith('6a')]:
+            verb = BlockchainSpider.decode_op_return(vout['extras']['script'])
             action = Spoolverb.from_verb(verb).action
             if action in Spoolverb.supported_actions:
                 return verb
