@@ -1,0 +1,7 @@
+spool:
+  build: .
+  volumes:
+    - ./spool:/usr/src/app/spool
+    - ./tests:/usr/src/app/tests
+    - ./setup.py:/usr/src/app/setup.py
+  command: py.test -v

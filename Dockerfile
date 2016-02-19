@@ -1,8 +1,16 @@
-FROM python:2.7-onbuild
+FROM python:2.7
 
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+COPY requirements.txt /usr/src/app/
 RUN pip install --upgrade pip
-RUN python setup.py install
+RUN pip install --no-cache-dir -r requirements.txt
 
-RUN pip install pytest ipython ipdb
+COPY . /usr/src/app
+
+RUN pip install -e .
+
+RUN pip install pytest pytest-cov ipython ipdb
 
 CMD ["py.test", "-v", "tests/"]
