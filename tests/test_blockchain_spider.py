@@ -8,7 +8,6 @@ OP_RETURN_HEX = '6a204153435249424553504f4f4c30314c4f414e312f3135303532323135303
 TXID = 'fb22bbb83161f6904f1803ee1cdbed1b5836eb9ac51b102564400989780b48ea'
 
 
-@unittest.skip
 class TestBlockchainSpider(unittest.TestCase):
 
     @classmethod
@@ -16,12 +15,14 @@ class TestBlockchainSpider(unittest.TestCase):
         bcs = BlockchainSpider(testnet=True)
         cls.tree = bcs.history(PIECE_HASH)
 
+    @unittest.skip
     def test_history(self):
         tree = self.tree
         self.assertEqual(len(tree), 2)
         self.assertEqual(len(tree[0]), 2)
         self.assertEqual(len(tree[1]), 5)
 
+    @unittest.skip
     def test_chain(self):
         tree = self.tree
 
@@ -50,6 +51,7 @@ class TestBlockchainSpider(unittest.TestCase):
         self.assertEqual(len(chain), 4)
         self.assertEqual(chain[-1]['action'], 'UNCONSIGN')
 
+    @unittest.skip
     def test_data(self):
         tree = self.tree
         data = {0: BlockchainSpider.chain(tree, 0)}
