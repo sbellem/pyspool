@@ -64,6 +64,32 @@ def test_get_addresses(rpconn, piece_hashes, spool_regtest, transactions):
     assert addresses[2] == piece_hashes[0]
 
 
+@pytest.mark.usefixtures('init_blockchain')
+def test_get_addresses_with_invalid_tx(alice, bob, rpconn, transactions):
+    """
+    An invalid transaction in this context is one that has inputs from
+    different addresses.
+
+    Args;
+        alice (str): bitcoin address of alice, the sender
+        bob (str): bitcoin address of bob, the receiver
+        rpconn (AuthServiceProxy): JSON-RPC connection
+            (:class:`AuthServiceProxy` instance) a local bitcoin regtest
+        transactions (Transactions): :class:`Transactions` instance to
+            communicate to the bitcoin regtest node
+
+    """
+    from spool.spoolex import BlockchainSpider, InvalidTransactionError
+    rpconn.sendtoaddress(alice, 1)
+    rpconn.sendtoaddress(alice, 1)
+    rpconn.generate(1)
+    txid = rpconn.sendfrom('alice', bob, 2)
+    decoded_raw_transfer_tx = transactions.get(txid)
+    with pytest.raises(InvalidTransactionError) as exc:
+        BlockchainSpider._get_addresses(decoded_raw_transfer_tx)
+    assert isinstance(exc.value, InvalidTransactionError)
+
+
 def test_decode_op_return():
     from spool.spoolex import BlockchainSpider
     op_return_hex = '6a174153435249424553504f4f4c30315452414e5346455235'

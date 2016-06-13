@@ -13,6 +13,20 @@ from transactions import Transactions
 
 
 @pytest.fixture
+def alice(rpconn, request):
+    address = rpconn.getnewaddress()
+    rpconn.setaccount(address, request.fixturename)
+    return address
+
+
+@pytest.fixture
+def bob(rpconn, request):
+    address = rpconn.getnewaddress()
+    rpconn.setaccount(address, request.fixturename)
+    return address
+
+
+@pytest.fixture
 def alice_hd_wallet():
     return BIP32Node.from_master_secret(b'alice-secret', netcode='XTN')
 
