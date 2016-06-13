@@ -165,7 +165,7 @@ class BlockchainSpider(object):
             raise InvalidTransactionError("Transaction should have inputs " \
                                           "from only one address {}".format(from_address))
 
-        # order vouts. discard the last vout since its the op_return
+        # order vouts. discard the last vout since it's the op_return
         vouts = sorted(tx['vouts'], key=lambda d: d['n'])[:-1]
         piece_address = vouts[0]['address']
         to_address = vouts[-1]['address']
