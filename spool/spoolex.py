@@ -158,7 +158,18 @@ class BlockchainSpider(object):
     @staticmethod
     def _get_addresses(tx):
         """
-        checks for the from, to, and piece address of a SPOOL transactions
+        Checks for the from, to, and piece address of a SPOOL transaction.
+
+        Args:
+            tx (dict): transaction payload, as returned by
+                ``transactions.Transactions.get()``
+
+        .. note:: Formats as returned by JSON-RPC API ``decoderawtransaction``
+            have yet to be supported.
+
+        Returns:
+            Tuple([str]): sender, receiver, and piece addresses
+
         """
         from_address = set([vin['address'] for vin in tx['vins']])
         if len(from_address) != 1:
