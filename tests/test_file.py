@@ -36,3 +36,9 @@ def test_file_metadata(testnet, file_hash_metadata):
              artist=METADATA['artist'])
     assert f.file_hash_metadata == file_hash_metadata
     assert f.file_hash_metadata != f.file_hash
+
+
+def test_file_from_hash():
+    from spool import File
+    f = File.from_hash(FILE_HASH_TESTNET)
+    assert f.hash == FILE_HASH_TESTNET
