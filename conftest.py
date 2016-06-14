@@ -20,31 +20,8 @@ def alice(rpconn, request):
 
 
 @pytest.fixture
-def bob(rpconn, request):
-    address = rpconn.getnewaddress()
-    rpconn.setaccount(address, request.fixturename)
-    return address
-
-
-@pytest.fixture
 def alice_hd_wallet():
     return BIP32Node.from_master_secret(b'alice-secret', netcode='XTN')
-
-
-@pytest.fixture
-def bob_hd_wallet():
-    return BIP32Node.from_master_secret(b'bob-secret', netcode='XTN')
-
-
-@pytest.fixture
-def federation_hd_wallet(request):
-    return BIP32Node.from_master_secret(b'federation-secret', netcode='XTN')
-
-
-@pytest.fixture
-def random_bip32_wallet():
-    return BIP32Node.from_master_secret(
-        uuid1().hex.encode('utf-8'), netcode='XTN')
 
 
 @pytest.fixture
@@ -53,13 +30,36 @@ def alice_hd_address(alice_hd_wallet):
 
 
 @pytest.fixture
+def bob(rpconn, request):
+    address = rpconn.getnewaddress()
+    rpconn.setaccount(address, request.fixturename)
+    return address
+
+
+@pytest.fixture
+def bob_hd_wallet():
+    return BIP32Node.from_master_secret(b'bob-secret', netcode='XTN')
+
+
+@pytest.fixture
 def bob_hd_address(bob_hd_wallet):
     return bob_hd_wallet.bitcoin_address()
 
 
 @pytest.fixture
+def federation_hd_wallet(request):
+    return BIP32Node.from_master_secret(b'federation-secret', netcode='XTN')
+
+
+@pytest.fixture
 def federation_hd_address(federation_hd_wallet):
     return federation_hd_wallet.bitcoin_address()
+
+
+@pytest.fixture
+def random_bip32_wallet():
+    return BIP32Node.from_master_secret(
+        uuid1().hex.encode('utf-8'), netcode='XTN')
 
 
 @pytest.fixture
