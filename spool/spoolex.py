@@ -143,11 +143,16 @@ class BlockchainSpider(object):
     @staticmethod
     def check_script(vouts):
         """
-        Looks into the vouts list of a transaction and returns the op_return if one exists
-        :param vouts: lists of outputs of a transaction
-        :return: string representation of the op_return
-        """
+        Looks into the vouts list of a transaction and returns the
+        ``op_return`` if one exists.
 
+        Args;
+            vouts (List[dict]): list of outputs of a transaction
+
+        Returns:
+            str: string representation of the ``op_return``
+
+        """
         for vout in [v for v in vouts[::-1] if v['hex'].startswith('6a')]:
             verb = BlockchainSpider.decode_op_return(vout['hex'])
             action = Spoolverb.from_verb(verb).action
