@@ -128,7 +128,7 @@ def spool_regtest(rpcuser, rpcpassword, host, port):
 
 
 @pytest.fixture
-def transactions(rpcuser, rpcpassword, host, port, rpcurl):
+def transactions(rpcuser, rpcpassword, host, port):
     return Transactions(
         service='daemon',
         username=rpcuser,
