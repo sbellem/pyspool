@@ -140,6 +140,19 @@ def transactions(rpcuser, rpcpassword, host, port, rpcurl):
 
 
 @pytest.fixture
+def spider(rpcuser, rpcpassword, host, port):
+    from spool import BlockchainSpider
+    return BlockchainSpider(
+        service='daemon',
+        username=rpcuser,
+        password=rpcpassword,
+        host=host,
+        port=port,
+        testnet=True,
+    )
+
+
+@pytest.fixture
 def file_hash(rpconn):
     """File hash mock."""
     return rpconn.getnewaddress()
