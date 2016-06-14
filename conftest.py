@@ -57,6 +57,18 @@ def federation_hd_address(federation_hd_wallet):
 
 
 @pytest.fixture
+def federation(federation_hd_address, init_blockchain, rpconn):
+    from spool import Spool
+    rpconn.importaddress(federation_hd_address)
+    rpconn.sendtoaddress(federation_hd_address, Spool.FEE/100000000)
+    rpconn.sendtoaddress(federation_hd_address, Spool.TOKEN/100000000)
+    rpconn.sendtoaddress(federation_hd_address, Spool.TOKEN/100000000)
+    rpconn.sendtoaddress(federation_hd_address, Spool.TOKEN/100000000)
+    rpconn.generate(1)
+    return federation_hd_address
+
+
+@pytest.fixture
 def random_bip32_wallet():
     return BIP32Node.from_master_secret(
         uuid1().hex.encode('utf-8'), netcode='XTN')
