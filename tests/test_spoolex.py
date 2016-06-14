@@ -169,3 +169,29 @@ def test_get_time_utc():
     assert timestamp
     assert datetime.fromtimestamp(timestamp,
                                   tz=pytz.UTC).strftime(TIME_FORMAT) == time
+
+
+def test_simplest_history(federation, alice, piece_hashes,
+                          spool_regtest, spider, rpconn):
+    txid = spool_regtest.register_piece(
+        ('', federation),
+        alice,
+        piece_hashes,
+        b'federation-secret',
+        min_confirmations=1,
+    )
+    rpconn.generate(1)
+    history = spider.history(piece_hashes[0])
+    assert len(history) == 1
+    assert '' in history
+    assert len(history['']) == 1
+    piece_registration_data = history[''][0]
+    assert piece_registration_data['action'] == 'PIECE'
+    assert piece_registration_data['edition_number'] == ''
+    assert piece_registration_data['from_address'] == federation
+    assert piece_registration_data['number_editions'] == 0
+    assert piece_registration_data['piece_address'] == piece_hashes[0]
+    assert piece_registration_data['timestamp_utc']
+    assert piece_registration_data['to_address'] == alice
+    assert piece_registration_data['txid'] == txid
+    assert piece_registration_data['verb'] == 'ASCRIBESPOOL01PIECE'
