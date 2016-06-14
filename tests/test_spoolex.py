@@ -41,7 +41,7 @@ def test_check_script(rpconn, piece_hashes, spool_regtest, transactions):
         alice (str): bitcoin address of alice, the sender
         bob (str): bitcoin address of bob, the receiver
         rpconn (AuthServiceProxy): JSON-RPC connection
-            (:class:`AuthServiceProxy` instance) a local bitcoin regtest
+            (:class:`AuthServiceProxy` instance) to bitcoin regtest
         transactions (Transactions): :class:`Transactions` instance to
             communicate to the bitcoin regtest node
 
