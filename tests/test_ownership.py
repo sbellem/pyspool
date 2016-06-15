@@ -2,7 +2,6 @@
 
 from __future__ import unicode_literals
 
-import os
 import unittest
 
 import pytest
@@ -28,7 +27,7 @@ USER2 -> Loans edition number 1 to USER3
 """
 
 
-@unittest.skipIf(os.environ.get('TRAVIS'), 'sslv3 alert handshake failure')
+@unittest.skip
 class TestOwnership(unittest.TestCase):
 
     def test_ownsership(self):
