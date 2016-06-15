@@ -284,3 +284,22 @@ def test_can_spool_action_squatted_edition(action, squattership_edition_one):
     squatter = squattership_edition_one.address
     assert (squattership_edition_one.reason ==
             'Address {} does not own the edition number 1'.format(squatter))
+
+
+def test_can_unconsign(ownership_consigned_edition):
+    assert ownership_consigned_edition.can_unconsign
+    assert ownership_consigned_edition.reason == ''
+
+
+def test_can_unconsign_not_registered_piece(ownership_not_registered_piece):
+    assert not ownership_not_registered_piece.can_unconsign
+    assert (ownership_not_registered_piece.reason ==
+            'Master edition not yet registered')
+
+
+def test_can_unconsign_not_consigned(ownership_edition_one):
+    assert not ownership_edition_one.can_unconsign
+    assert (ownership_edition_one.reason ==
+            'Edition number {} is not consigned to {}'.format(
+                ownership_edition_one.edition_number,
+                ownership_edition_one.address))
