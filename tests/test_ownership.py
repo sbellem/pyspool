@@ -5,6 +5,8 @@ from __future__ import unicode_literals
 import os
 import unittest
 
+import pytest
+
 from spool import Ownership
 
 USER1_ROOT = 'n2sQHoUghWUgSM8msqdmCim8pZ635YjoCD'
@@ -259,29 +261,10 @@ def test_can_register_edition_for_loan(carol,
     assert ownership.reason == 'Number of editions not yet registered'
 
 
-def test_can_register_registered_edition(alice,
-                                         rpcuser,
-                                         rpcpassword,
-                                         host,
-                                         port,
-                                         registered_edition_two_hashes):
-    from spool.ownership import Ownership
-    piece_address = registered_edition_two_hashes[0]
-    edition_number = 2
-    ownership = Ownership(
-        alice,
-        piece_address,
-        edition_number,
-        testnet=True,
-        service='daemon',
-        username=rpcuser,
-        password=rpcpassword,
-        host=host,
-        port=port,
-    )
-    assert not ownership.can_register
-    assert (ownership.reason ==
-            'Edition number 2 is already registered in the blockchain')
+def test_can_register_registered_edition(ownership_edition_one):
+    assert not ownership_edition_one.can_register
+    assert (ownership_edition_one.reason ==
+            'Edition number 1 is already registered in the blockchain')
 
 
 def test_can_register_non_existing_edition(alice,
@@ -307,3 +290,25 @@ def test_can_register_non_existing_edition(alice,
     assert not ownership.can_register
     assert ownership.reason == ('You can only register 3 editions. '
                                 'You are trying to register edition 4')
+
+
+@pytest.mark.parametrize('action', ('transfer', 'consign', 'loan'))
+def test_can_spool_action(action, ownership_edition_one):
+    assert getattr(ownership_edition_one, 'can_{}'.format(action))
+    assert ownership_edition_one.reason == ''
+
+
+@pytest.mark.parametrize('action', ('transfer', 'consign', 'loan'))
+def test_can_spool_action_non_existing_edition(action, ownership_edition_qty):
+    assert not getattr(ownership_edition_qty, 'can_{}'.format(action))
+    assert (ownership_edition_qty.reason ==
+            'The edition number {} does not exist in the blockchain'.format(
+                ownership_edition_qty.edition_number))
+
+
+@pytest.mark.parametrize('action', ('transfer', 'consign', 'loan'))
+def test_can_spool_action_squatted_edition(action, squattership_edition_one):
+    assert not getattr(squattership_edition_one, 'can_{}'.format(action))
+    squatter = squattership_edition_one.address
+    assert (squattership_edition_one.reason ==
+            'Address {} does not own the edition number 1'.format(squatter))

@@ -407,3 +407,54 @@ def loaned_edition_two_hashes(federation, bob, carol, spool_regtest,
     )
     rpconn.generate(1)
     return transferred_edition_two_hashes
+
+
+@pytest.fixture
+def ownership_edition_one(alice, registered_edition_one_hashes,
+                          rpcuser, rpcpassword, host, port):
+    from spool import Ownership
+    return Ownership(
+        alice,
+        registered_edition_one_hashes[0],
+        1,
+        testnet=True,
+        service='daemon',
+        username=rpcuser,
+        password=rpcpassword,
+        host=host,
+        port=port,
+    )
+
+
+@pytest.fixture
+def squattership_edition_one(carol, registered_edition_one_hashes,
+                             rpcuser, rpcpassword, host, port):
+    from spool import Ownership
+    return Ownership(
+        carol,
+        registered_edition_one_hashes[0],
+        1,
+        testnet=True,
+        service='daemon',
+        username=rpcuser,
+        password=rpcpassword,
+        host=host,
+        port=port,
+    )
+
+
+@pytest.fixture
+def ownership_edition_qty(alice, registered_edition_qty_hashes,
+                          rpcuser, rpcpassword, host, port):
+    from spool import Ownership
+    return Ownership(
+        alice,
+        registered_edition_qty_hashes[0],
+        1,
+        testnet=True,
+        service='daemon',
+        username=rpcuser,
+        password=rpcpassword,
+        host=host,
+        port=port,
+    )
