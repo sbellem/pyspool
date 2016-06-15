@@ -91,23 +91,9 @@ def test_ownership_init(alice, registered_piece_hashes,
     assert ownership.reason == ''
 
 
-def test_can_register_master_true(alice, piece_hashes, rpcuser,
-                                  rpcpassword, host, port):
-    from spool.ownership import Ownership, REGISTERED_PIECE_CODE
-    piece_address = piece_hashes[0]
-    ownership = Ownership(
-        alice,
-        piece_address,
-        REGISTERED_PIECE_CODE,
-        testnet=True,
-        service='daemon',
-        username=rpcuser,
-        password=rpcpassword,
-        host=host,
-        port=port,
-    )
-    assert ownership.can_register_master
-    assert ownership.reason == ''
+def test_can_register_master_true(ownership_not_registered_piece):
+    assert ownership_not_registered_piece.can_register_master
+    assert ownership_not_registered_piece.reason == ''
 
 
 def test_can_register_master_false(alice, registered_piece_hashes,
@@ -149,23 +135,10 @@ def test_can_editions(alice, registered_piece_hashes,
     assert ownership.reason == ''
 
 
-def test_can_editions_not_registered_piece(alice, piece_hashes, rpcuser,
-                                           rpcpassword, host, port):
-    from spool.ownership import Ownership, REGISTERED_PIECE_CODE
-    piece_address = piece_hashes[0]
-    ownership = Ownership(
-        alice,
-        piece_address,
-        REGISTERED_PIECE_CODE,
-        testnet=True,
-        service='daemon',
-        username=rpcuser,
-        password=rpcpassword,
-        host=host,
-        port=port,
-    )
-    assert not ownership.can_editions
-    assert ownership.reason == 'Master edition not yet registered'
+def test_can_editions_not_registered_piece(ownership_not_registered_piece):
+    assert not ownership_not_registered_piece.can_editions
+    assert (ownership_not_registered_piece.reason ==
+            'Master edition not yet registered')
 
 
 def test_can_editions_registered_edition_qty(alice,
