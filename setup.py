@@ -4,6 +4,7 @@ Ledger `SPOOL <https://github.com/ascribe/spool>`_ and part of the development
 stack of `ascribe.io <https://www.ascribe.io/>`_.
 
 """
+from __future__ import unicode_literals
 import io
 import os
 import re

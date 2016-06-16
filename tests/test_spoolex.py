@@ -70,7 +70,7 @@ def test_check_script(rpconn, piece_hashes, spool_regtest, transactions):
         min_confirmations=1,
     )
     verb = BlockchainSpider.check_script(transactions.get(txid)['vouts'])
-    assert verb == 'ASCRIBESPOOL01TRANSFER5'
+    assert verb == b'ASCRIBESPOOL01TRANSFER5'
 
 
 @pytest.mark.usefixtures('init_blockchain')
@@ -95,7 +95,7 @@ def test_check_script_with_invalid_tx(eve, wendy, rpconn, transactions):
     decoded_raw_transfer_tx = transactions.get(txid)
     with pytest.raises(Exception) as exc:
         BlockchainSpider.check_script(decoded_raw_transfer_tx['vouts'])
-    assert exc.value.message == 'Invalid ascribe transaction'
+    assert exc.value.args[0] == 'Invalid ascribe transaction'
 
 
 @pytest.mark.usefixtures('init_blockchain')
@@ -160,7 +160,7 @@ def test_decode_op_return():
     from spool.spoolex import BlockchainSpider
     op_return_hex = '6a174153435249424553504f4f4c30315452414e5346455235'
     op_return = BlockchainSpider.decode_op_return(op_return_hex)
-    assert op_return == 'ASCRIBESPOOL01TRANSFER5'
+    assert op_return == b'ASCRIBESPOOL01TRANSFER5'
 
 
 def test_get_time_utc():
@@ -195,7 +195,7 @@ def test_simplest_history(federation, alice, piece_hashes,
     assert piece_registration_data['timestamp_utc']
     assert piece_registration_data['to_address'] == alice
     assert piece_registration_data['txid'] == txid
-    assert piece_registration_data['verb'] == 'ASCRIBESPOOL01PIECE'
+    assert piece_registration_data['verb'] == b'ASCRIBESPOOL01PIECE'
 
 
 def test_register_editions_qty_history(federation,
@@ -228,7 +228,7 @@ def test_register_editions_qty_history(federation,
     assert editions_data['timestamp_utc']
     assert editions_data['to_address'] == alice
     assert editions_data['txid'] == txid
-    assert editions_data['verb'] == 'ASCRIBESPOOL01EDITIONS3'
+    assert editions_data['verb'] == b'ASCRIBESPOOL01EDITIONS3'
 
 
 def test_register_edition_history(federation, alice, spool_regtest, spider,
@@ -261,7 +261,7 @@ def test_register_edition_history(federation, alice, spool_regtest, spider,
     assert edition_registration_data['timestamp_utc']
     assert edition_registration_data['to_address'] == alice
     assert edition_registration_data['txid'] == txid
-    assert edition_registration_data['verb'] == 'ASCRIBESPOOL01REGISTER2'
+    assert edition_registration_data['verb'] == b'ASCRIBESPOOL01REGISTER2'
 
 
 def test_transfer_history(federation, alice, bob, spool_regtest, spider,
@@ -296,7 +296,7 @@ def test_transfer_history(federation, alice, bob, spool_regtest, spider,
     assert transfer_data['timestamp_utc']
     assert transfer_data['to_address'] == bob
     assert transfer_data['txid'] == txid
-    assert transfer_data['verb'] == 'ASCRIBESPOOL01TRANSFER2'
+    assert transfer_data['verb'] == b'ASCRIBESPOOL01TRANSFER2'
 
 
 def test_loan_history(federation, bob, carol, spool_regtest, spider,
@@ -334,7 +334,7 @@ def test_loan_history(federation, bob, carol, spool_regtest, spider,
     assert loan_data['timestamp_utc']
     assert loan_data['to_address'] == carol
     assert loan_data['txid'] == txid
-    assert loan_data['verb'] == 'ASCRIBESPOOL01LOAN2/171017181018'
+    assert loan_data['verb'] == b'ASCRIBESPOOL01LOAN2/171017181018'
 
 
 def test_chain(loaned_edition_two_hashes, spider):

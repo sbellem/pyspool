@@ -1,12 +1,16 @@
 from __future__ import division
 from __future__ import print_function
+from __future__ import unicode_literals
+from future import standard_library
+standard_library.install_aliases()
+from builtins import range
 
 import codecs
 import os
 import random
 import requests
 import unittest
-from Queue import Queue
+from queue import Queue
 from string import ascii_letters
 from uuid import uuid1
 
@@ -200,10 +204,10 @@ class TestSpool(unittest.TestCase):
         self.assertEqual(verb, 'ASCRIBESPOOL01LOAN1/150522150523')
 
     def _get_pass(self):
-        return ''.join([random.choice(ascii_letters) for i in xrange(10)])
+        return ''.join([random.choice(ascii_letters) for i in range(10)])
 
     def _get_file_hash(self):
-        title = ''.join([random.choice(ascii_letters) for i in xrange(10)])
+        title = ''.join([random.choice(ascii_letters) for i in range(10)])
         with open('/tmp/test', 'w') as f:
             f.write(random._urandom(100))
 
@@ -445,7 +449,8 @@ def test_register_edition(rpconn,
     assert piece_hashes[0] in addresses
     assert piece_hashes[1] in addresses
     assert asm.split(' ')[0] == 'OP_RETURN'
-    assert codecs.decode(asm.split(' ')[1], 'hex') == 'ASCRIBESPOOL01REGISTER3'
+    assert codecs.decode(
+        asm.split(' ')[1], 'hex') == b'ASCRIBESPOOL01REGISTER3'
 
 
 @pytest.mark.usefixtures('init_blockchain')
@@ -485,8 +490,8 @@ def test_consigned_registration(rpconn,
     assert piece_hashes[0] in addresses
     assert piece_hashes[1] in addresses
     assert asm.split(' ')[0] == 'OP_RETURN'
-    assert (codecs.decode(asm.split(' ')[1], 'hex') ==
-            'ASCRIBESPOOL01CONSIGNEDREGISTRATION')
+    assert codecs.decode(
+        asm.split(' ')[1], 'hex') == b'ASCRIBESPOOL01CONSIGNEDREGISTRATION'
 
 
 @pytest.mark.usefixtures('init_blockchain')
@@ -527,7 +532,8 @@ def test_editions(rpconn,
     assert piece_hashes[0] in addresses
     assert piece_hashes[1] in addresses
     assert asm.split(' ')[0] == 'OP_RETURN'
-    assert codecs.decode(asm.split(' ')[1], 'hex') == 'ASCRIBESPOOL01EDITIONS7'
+    assert codecs.decode(
+        asm.split(' ')[1], 'hex') == b'ASCRIBESPOOL01EDITIONS7'
 
 
 @pytest.mark.usefixtures('init_blockchain')
@@ -567,7 +573,8 @@ def test_transfer(rpconn,
     assert alice_hd_address in addresses
     assert piece_hashes[0] in addresses
     assert asm.split(' ')[0] == 'OP_RETURN'
-    assert codecs.decode(asm.split(' ')[1], 'hex') == 'ASCRIBESPOOL01TRANSFER5'
+    assert codecs.decode(
+        asm.split(' ')[1], 'hex') == b'ASCRIBESPOOL01TRANSFER5'
 
 
 @pytest.mark.usefixtures('init_blockchain')
@@ -607,7 +614,7 @@ def test_consign(rpconn,
     assert alice_hd_address in addresses
     assert piece_hashes[0] in addresses
     assert asm.split(' ')[0] == 'OP_RETURN'
-    assert codecs.decode(asm.split(' ')[1], 'hex') == 'ASCRIBESPOOL01CONSIGN4'
+    assert codecs.decode(asm.split(' ')[1], 'hex') == b'ASCRIBESPOOL01CONSIGN4'
 
 
 @pytest.mark.usefixtures('init_blockchain')
@@ -647,8 +654,8 @@ def test_unconsign(rpconn,
     assert alice_hd_address in addresses
     assert piece_hashes[0] in addresses
     assert asm.split(' ')[0] == 'OP_RETURN'
-    assert (codecs.decode(asm.split(' ')[1], 'hex') ==
-            'ASCRIBESPOOL01UNCONSIGN8')
+    assert codecs.decode(
+        asm.split(' ')[1], 'hex') == b'ASCRIBESPOOL01UNCONSIGN8'
 
 
 @pytest.mark.usefixtures('init_blockchain')
@@ -687,8 +694,8 @@ def test_loan(rpconn, federation_hd_address,
     assert alice_hd_address in addresses
     assert piece_hashes[0] in addresses
     assert asm.split(' ')[0] == 'OP_RETURN'
-    assert (codecs.decode(asm.split(' ')[1], 'hex') ==
-            'ASCRIBESPOOL01LOAN2/160613160701')
+    assert codecs.decode(
+        asm.split(' ')[1], 'hex') == b'ASCRIBESPOOL01LOAN2/160613160701'
 
 
 @pytest.mark.usefixtures('init_blockchain')
@@ -731,4 +738,4 @@ def test_migrate(rpconn,
     assert new_address in addresses
     assert piece_hashes[0] in addresses
     assert asm.split(' ')[0] == 'OP_RETURN'
-    assert codecs.decode(asm.split(' ')[1], 'hex') == 'ASCRIBESPOOL01MIGRATE9'
+    assert codecs.decode(asm.split(' ')[1], 'hex') == b'ASCRIBESPOOL01MIGRATE9'

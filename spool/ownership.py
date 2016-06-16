@@ -1,5 +1,6 @@
 from __future__ import absolute_import
-from exceptions import Exception
+from __future__ import unicode_literals
+from builtins import object
 
 from .spoolex import BlockchainSpider
 
