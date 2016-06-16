@@ -32,7 +32,7 @@ install_requires = [
     'bitcoin>=1.1.42',
     'pycoin>=0.70',
     'requests>=2.10.0',
-    'transactions>=0.1.0',
+    'transactions>=0.2.0',
 ]
 
 dependency_links = [
