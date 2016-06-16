@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import division, unicode_literals
+from __future__ import absolute_import
 
 from uuid import uuid1
 from datetime import datetime
@@ -265,7 +266,7 @@ def test_register_edition_history(federation, alice, spool_regtest, spider,
 
 def test_transfer_history(federation, alice, bob, spool_regtest, spider,
                           registered_edition_two_hashes, rpconn):
-    from conftest import reload_address
+    from .conftest import reload_address
     reload_address(alice, rpconn)
     edition_number = 2
     piece_hash = registered_edition_two_hashes[0]
@@ -300,7 +301,7 @@ def test_transfer_history(federation, alice, bob, spool_regtest, spider,
 
 def test_loan_history(federation, bob, carol, spool_regtest, spider,
                       transferred_edition_two_hashes, rpconn):
-    from conftest import reload_address
+    from .conftest import reload_address
     edition_number = 2
     loan_start, loan_end = '171017', '181018'
     piece_hash = transferred_edition_two_hashes[0]

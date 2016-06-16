@@ -1,6 +1,7 @@
+from __future__ import absolute_import
 from exceptions import Exception
 
-from spoolex import BlockchainSpider
+from .spoolex import BlockchainSpider
 
 
 REGISTERED_PIECE_CODE = ''

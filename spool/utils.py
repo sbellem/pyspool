@@ -1,12 +1,13 @@
 """
 Util functions
 """
+from __future__ import absolute_import
 import time
 
 from functools import wraps
-from ownership import Ownership, OwnershipError
+from .ownership import Ownership, OwnershipError
 from transactions import Transactions
-from spoolex import BlockchainSpider
+from .spoolex import BlockchainSpider
 
 # number of seconds between transaction confirmed checks.
 # only needed for when calling a method with sync=True

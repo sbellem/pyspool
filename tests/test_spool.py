@@ -1,4 +1,5 @@
 from __future__ import division
+from __future__ import print_function
 
 import codecs
 import os
@@ -51,11 +52,11 @@ class TestSpool(unittest.TestCase):
 
         # set TEST_SPOOL=2 to test with bitcoind
         if test == '2':
-            print 'using bitcoind'
+            print('using bitcoind')
             self.t = Transactions(testnet=True, service='daemon', username=username, password=password, host=host, port=port)
             self.spool = Spool(testnet=True, service='daemon', username=username, password=password, host=host, port=port)
         else:
-            print 'using blockr'
+            print('using blockr')
             self.t = Transactions(testnet=True)
             self.spool = Spool(testnet=True)
 
@@ -68,14 +69,14 @@ class TestSpool(unittest.TestCase):
         self.user3_leaf = Wallet(self.user3_pass, testnet=True).address_from_path()
         self.file_hash = self._get_file_hash()
 
-        print 'user1_pass: ', self.user1_pass
-        print 'user2_pass: ', self.user2_pass
-        print 'user3_pass: ', self.user3_pass
-        print 'user1_root: ', self.user1_root
-        print 'user1_leaf: ', self.user1_leaf
-        print 'user2_leaf: ', self.user2_leaf
-        print 'user3_leaf: ', self.user3_leaf
-        print 'file_hash :', self.file_hash
+        print('user1_pass: ', self.user1_pass)
+        print('user2_pass: ', self.user2_pass)
+        print('user3_pass: ', self.user3_pass)
+        print('user1_root: ', self.user1_root)
+        print('user1_leaf: ', self.user1_leaf)
+        print('user2_leaf: ', self.user2_leaf)
+        print('user3_leaf: ', self.user3_leaf)
+        print('file_hash :', self.file_hash)
 
         self.spool._t.import_address(self.user1_root[1], "test",)
         self.spool._t.import_address(self.user1_leaf[1], "test",)
@@ -87,112 +88,112 @@ class TestSpool(unittest.TestCase):
 
     def test_spool(self):
         # 1. Refill Federation wallet with necessary fuel and tokens
-        print
-        print 'Refilling Federation wallet with necessary fuel and tokens'
+        print()
+        print('Refilling Federation wallet with necessary fuel and tokens')
         txid = self.spool.refill_main_wallet(self.refill_root, self.federation_root[1], 7, 11, self.refill_pass,
                                              min_confirmations=1, sync=True)
-        print txid
+        print(txid)
 
         # 2. user1 registers master edition
-        print
-        print 'user1 registers master edition'
+        print()
+        print('user1 registers master edition')
         txid = self.spool.register(self.federation_root, self.user1_root[1], self.file_hash,
                                    self.federation_pass, 0, min_confirmations=1, sync=True)
-        print txid
+        print(txid)
 
         tx = self.t.get(txid)
         verb = BlockchainSpider.check_script(tx['vouts'])
         self.assertEqual(verb, 'ASCRIBESPOOL01REGISTER0')
 
         # 3. user1 registers number of editions
-        print
-        print 'user1 registers number of editions'
+        print()
+        print('user1 registers number of editions')
         txid = self.spool.editions(self.federation_root, self.user1_root[1], self.file_hash,
                                    self.federation_pass, 10, min_confirmations=1, sync=True)
-        print txid
+        print(txid)
 
         tx = self.t.get(txid)
         verb = BlockchainSpider.check_script(tx['vouts'])
         self.assertEqual(verb, 'ASCRIBESPOOL01EDITIONS10')
 
         # 4. user1 registers edition number 1
-        print
-        print 'user1 registers edition number 1'
+        print()
+        print('user1 registers edition number 1')
         txid = self.spool.register(self.federation_root, self.user1_leaf[1], self.file_hash,
                                    self.federation_pass, 1, min_confirmations=1, sync=True)
-        print txid
+        print(txid)
 
         tx = self.t.get(txid)
         verb = BlockchainSpider.check_script(tx['vouts'])
         self.assertEqual(verb, 'ASCRIBESPOOL01REGISTER1')
 
         # 5. Refill user1 wallet before transfer
-        print
-        print 'Refill user1 wallet before transfer'
+        print()
+        print('Refill user1 wallet before transfer')
         txid = self.spool.refill(self.federation_root, self.user1_leaf[1], 1, 1,
                                  self.federation_pass, min_confirmations=1, sync=True)
-        print txid
+        print(txid)
 
         # 5. User1 transfers edition number 1 to user2
-        print
-        print 'User1 transfers edition number 1 to user 2'
+        print()
+        print('User1 transfers edition number 1 to user 2')
         txid = self.spool.transfer(self.user1_leaf, self.user2_leaf[1], self.file_hash,
                                    self.user1_pass, 1, min_confirmations=1, sync=True)
-        print txid
+        print(txid)
 
         tx = self.t.get(txid)
         verb = BlockchainSpider.check_script(tx['vouts'])
         self.assertEqual(verb, 'ASCRIBESPOOL01TRANSFER1')
 
         # 6. Refill user2 wallet before consign
-        print
-        print 'Refill user2 wallet before consign'
+        print()
+        print('Refill user2 wallet before consign')
         txid = self.spool.refill(self.federation_root, self.user2_leaf[1], 1, 1,
                                  self.federation_pass, min_confirmations=1, sync=True)
-        print txid
+        print(txid)
 
         # 6. user2 consigns edition number 1 to user3
-        print
-        print 'user2 consigns edition number 1 to user3'
+        print()
+        print('user2 consigns edition number 1 to user3')
         txid = self.spool.consign(self.user2_leaf, self.user3_leaf[1], self.file_hash,
                                   self.user2_pass, 1, min_confirmations=1, sync=True)
-        print txid
+        print(txid)
 
         tx = self.t.get(txid)
         verb = BlockchainSpider.check_script(tx['vouts'])
         self.assertEqual(verb, 'ASCRIBESPOOL01CONSIGN1')
 
         # 7. Refill user3 wallet before unconsign
-        print
-        print 'Refill user3 wallet before unconsign'
+        print()
+        print('Refill user3 wallet before unconsign')
         txid = self.spool.refill(self.federation_root, self.user3_leaf[1], 1, 1,
                                  self.federation_pass, min_confirmations=1, sync=True)
-        print txid
+        print(txid)
 
         # 7. user3 unconsigns edition number 1 to user2
-        print
-        print 'user3 unconsigns edition number 1 back to user2'
+        print()
+        print('user3 unconsigns edition number 1 back to user2')
         txid = self.spool.unconsign(self.user3_leaf, self.user2_leaf[1], self.file_hash,
                                     self.user3_pass, 1, min_confirmations=1, sync=True)
-        print txid
+        print(txid)
 
         tx = self.t.get(txid)
         verb = BlockchainSpider.check_script(tx['vouts'])
         self.assertEqual(verb, 'ASCRIBESPOOL01UNCONSIGN1')
 
         # 8. Refill user2 wallet before loan
-        print
-        print 'Refill user2 wallet before loan'
+        print()
+        print('Refill user2 wallet before loan')
         txid = self.spool.refill(self.federation_root, self.user2_leaf[1], 1, 1,
                                  self.federation_pass, min_confirmations=1, sync=True)
-        print txid
+        print(txid)
 
         # 8. user2 loans edition number 1 to user3
-        print
-        print 'user2 loans edition number 1 to user3'
+        print()
+        print('user2 loans edition number 1 to user3')
         txid = self.spool.loan(self.user2_leaf, self.user3_leaf[1], self.file_hash,
                                self.user2_pass, 1, '150522', '150523', min_confirmations=1, sync=True)
-        print txid
+        print(txid)
 
         tx = self.t.get(txid)
         verb = BlockchainSpider.check_script(tx['vouts'])

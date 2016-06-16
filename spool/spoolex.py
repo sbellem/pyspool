@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 import binascii
 import calendar
 
@@ -7,7 +8,7 @@ from datetime import datetime
 from pprint import PrettyPrinter
 
 from transactions import Transactions
-from spoolverb import Spoolverb
+from .spoolverb import Spoolverb
 
 SPOOLVERB = namedtuple('SPOOLVERB', ['register', 'consign', 'transfer', 'loan', 'unconsign', 'fuel'])
 spoolverb = SPOOLVERB('ASCRIBESPOOL01REGISTER',

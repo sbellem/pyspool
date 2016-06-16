@@ -1,12 +1,13 @@
 """
 Main spool verb methods
 """
+from __future__ import absolute_import
 from exceptions import Exception
 from Queue import Queue
 
 from transactions import Transactions
-from utils import dispatch
-from spoolverb import Spoolverb
+from .utils import dispatch
+from .spoolverb import Spoolverb
 
 
 class SpoolFundsError(Exception):
