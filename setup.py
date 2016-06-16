@@ -30,6 +30,7 @@ def find_version(*file_paths):
 
 install_requires = [
     'bitcoin>=1.1.42',
+    'future>=0.15.2',
     'pycoin>=0.70',
     'requests>=2.10.0',
     'transactions>=0.2.0',
