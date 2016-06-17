@@ -30,14 +30,23 @@ class File(object):
 
     def __init__(self, filename, testnet=False, **kwargs):
         """
+        Args:
+            filename (str): Name of the file
+            testnet (bool): testnet flag. Defaults to False
+            **kwargs: Additional metadata to be encoded with the file. Only
+                the values are used to compute the hash. Values are
+                ordered using their keys, so that the computation of the
+                hash is consistent. As an example, given::
 
-        :param filename: Name of the file
-        :param testnet: testnet flag. Defaults to False
-        :param kwargs: Additional metadata to be encoded with the file.
-                       e.g. {'title': 'piece title', 'artist_name': 'artist'}
-        :return: File instance
+                    File('filename', title='piece title', artist='artist')
+
+                the values ``('artist', 'piece title')`` would be used in that
+                order for the computation of the hash.
+
+        Returns:
+            File instance
+
         """
-
         self.testnet = testnet
         # prefix of the addresses to distinguish between mainnet and testnet
         self._magicbyte = 111 if testnet else 0
@@ -56,15 +65,30 @@ class File(object):
 
     def _calculate_hash(self, filename, **kwargs):
         """
-        Calculates the hash of the file and the hash of the file + metadata (passed on the keywargs)
-        """
+        Calculates the hash of the file and the hash of the file + metadata
+        (passed in ``kwargs``).
 
+        Args:
+            filename (str): Name of the file
+            testnet (bool): testnet flag. Defaults to False
+            **kwargs: Additional metadata to be encoded with the file. Only
+                the values are used to compute the hash. Values are
+                ordered using their keys, so that the computation of the
+                hash is consistent. As an example, given::
+
+                    File('filename', title='piece title', artist='artist')
+
+                the values ``('artist', 'piece title')`` would be used in that
+                order for the computation of the hash.
+
+        """
         # hash to address
         with open(filename, 'rb') as f:
             file_hash = hashlib.md5(f.read()).hexdigest()
 
         if kwargs:
-            data = str([urepr(v) for v in kwargs.values()] + [file_hash])
+            data = str(
+                [urepr(kwargs[k]) for k in sorted(kwargs)] + [file_hash])
         else:
             data = file_hash
         address_piece_with_metadata = str(
