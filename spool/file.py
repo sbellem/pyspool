@@ -5,11 +5,25 @@ File related methods
 from __future__ import unicode_literals
 
 import hashlib
-import sys
 from builtins import object, str
 
 
 import bitcoin
+
+
+class ExplicitUnicodeLiteral(str):
+
+    def __repr__(self):
+        """
+        Always return the representation with a prefixed 'u'.
+
+        ..note:: For some reason, using ``super().__repr__()`` would cause
+            some tests to fail, somewhat randomly.
+
+        """
+        return 'u{}'.format(str.__repr__(self))
+
+urepr = ExplicitUnicodeLiteral
 
 
 class File(object):
@@ -56,7 +70,7 @@ class File(object):
             file_hash = hashlib.md5(f.read()).hexdigest()
 
         if kwargs:
-            data = str([v for v in kwargs.values()] + [file_hash])
+            data = str([urepr(v) for v in kwargs.values()] + [file_hash])
         else:
             data = file_hash
         address_piece_with_metadata = str(
