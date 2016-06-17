@@ -1,20 +1,19 @@
+# -*- coding: utf-8 -*-
 """
 Main spool verb methods
 """
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import unicode_literals
+from __future__ import absolute_import, division,  unicode_literals
 from future import standard_library
 standard_library.install_aliases()
-from builtins import filter
-from builtins import range
-from builtins import object
+
+from builtins import filter, object, range
 from past.utils import old_div
 from queue import Queue
 
 from transactions import Transactions
-from .utils import dispatch
+
 from .spoolverb import Spoolverb
+from .utils import dispatch
 
 
 class SpoolFundsError(Exception):

@@ -5,7 +5,7 @@ File related methods
 from __future__ import unicode_literals
 
 import hashlib
-from builtins import object, str
+from builtins import object, str, super
 
 
 import bitcoin
@@ -14,14 +14,8 @@ import bitcoin
 class ExplicitUnicodeLiteral(str):
 
     def __repr__(self):
-        """
-        Always return the representation with a prefixed 'u'.
-
-        ..note:: For some reason, using ``super().__repr__()`` would cause
-            some tests to fail, somewhat randomly.
-
-        """
-        return 'u{}'.format(str.__repr__(self))
+        """Always return the representation with a prefixed 'u'."""
+        return 'u{}'.format(super().__repr__())
 
 urepr = ExplicitUnicodeLiteral
 

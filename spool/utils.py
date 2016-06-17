@@ -1,13 +1,15 @@
+# -*- coding: utf-8 -*-
 """
 Util functions
 """
-from __future__ import absolute_import
-from __future__ import unicode_literals
-import time
+from __future__ import absolute_import, unicode_literals
 
+import time
 from functools import wraps
-from .ownership import Ownership, OwnershipError
+
 from transactions import Transactions
+
+from .ownership import Ownership, OwnershipError
 from .spoolex import BlockchainSpider
 
 # number of seconds between transaction confirmed checks.
